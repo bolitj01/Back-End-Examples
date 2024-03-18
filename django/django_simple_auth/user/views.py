@@ -43,13 +43,11 @@ def set_email_permission(request):
     if request.user.is_authenticated and request.user.is_superuser:
         username = request.POST['username']
         user = User.objects.get(username=username)
-        # view_permission = Permission.objects.get(codename='view_any_email') #Get the custom permission
-        view_permission = Permission.objects.get(codename='view_user') #Get the built-in permission
+        view_permission = Permission.objects.get(codename='view_any_email') #Get the custom permission
+        # view_permission = Permission.objects.get(codename='view_user') #Get the built-in permission
         if request.POST['allowed'] == "true":
-            # user.user_permissions.add(view_permission) #Add the custom permission
             user.user_permissions.add(view_permission) #Add the built-in permission
         else:
-            # user.user_permissions.remove(view_permission) #Remove the custom permission
             user.user_permissions.remove(view_permission) #Remove the built-in permission
         return HttpResponse(f'Permission view_user = {request.POST['allowed']} granted to {user.username}')
     else:

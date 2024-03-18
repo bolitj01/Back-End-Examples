@@ -34,7 +34,7 @@ username={{admin_username}}&password={{password}}
 POST http://127.0.0.1:8000/user/set_email_permission/ HTTP/1.1
 Content-Type: application/x-www-form-urlencoded
 
-username={{username}}&allowed=false
+username={{username}}&allowed=true
 
 
 ### Send GET request to get user's own email
