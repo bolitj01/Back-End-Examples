@@ -1,14 +1,23 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
 import './App.css'
 
 function App() {
+  const [todos, setTodos] = useState([])
+
+  // Fetch all todos
+  useEffect(() => {
+    const response = axios.get('http://localhost:8000/todos/')
+    .then(response => {
+        setTodos(response.data)
+    })
+
+  }, [])
+  
 
   return (
     <>
-      <h1>Vite + React</h1>
-      <h2>
-        Practice a lot to become a master!
-      </h2>
+      
     </>
   )
 }

@@ -10,6 +10,8 @@ import json
 @require_http_methods(["POST"])
 def create_user(request):
     data = json.loads(request.body)
+    if User.objects.filter(username=data['username']).exists():
+        return HttpResponse(f'User {data["username"]} already exists!')
     user = User.objects.create_user(data['username'], data['password'])
     return HttpResponse(f'User {user.username} created!')
 
