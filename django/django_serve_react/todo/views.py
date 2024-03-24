@@ -1,3 +1,4 @@
+from ast import Is
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.core import serializers
@@ -8,61 +9,70 @@ from .serializers import TodoSerializer
 from .models import Todo
 from rest_framework.permissions import IsAuthenticated
 import json
-
-# class TodoViewSet(viewsets.ModelViewSet):
-#     permission_classes = [IsAuthenticated]
-#     serializer_class = TodoSerializer
-    
-#     #Only get the todos of the user who is currently logged in
-#     #Unless the user is a superuser, then they can see all todos
-#     def get_queryset(self):
-#         if self.request.user.is_superuser:
-#             return Todo.objects.all()
-#         else:
-#             return Todo.objects.filter(user=self.request.user)
-    
-#     #Only create a todo for the user who is currently logged in
-#     def perform_create(self, serializer):
-#         serializer.save(user=self.request.user)
-
-# Add the todo in POST request to the todo list
-def add_todo(request):
-    data = json.loads(request.body)
-    print(data)
-    user = User.objects.get(username=data["username"])
-    todo = Todo(title=data["title"], description=data["description"], user=user)
-    todo.save()
-    return HttpResponse(f"Todo {todo.title} added successfully")
-
-# Get all the todos from the todo list
-def get_todos(request):
-    todos = Todo.objects.all()
-    print(todos)
-    data = serializers.serialize('json', todos)
-    return JsonResponse(data, safe=False)
-
-# Get all todos of a specific user
-def get_user_todos(request):
-    data = json.loads(request.body)
-    user = User.objects.get(username=data["username"])
-    todos = Todo.objects.filter(user=user)
-    data = serializers.serialize('json', todos)
-    return JsonResponse(data, safe=False)
-
-# Remove the todo from the user's todo list
-def remove_todo(request):
-    data = json.loads(request.body)
-    todo = Todo.objects.get(title = data["title"], user = data["user"])
-    todo.delete()
-    return HttpResponse(f"Todo {todo.title} removed successfully")
-
-
-from rest_framework import viewsets
-from .serializers import TodoSerializer
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
 from .models import Todo
+from .serializers import TodoSerializer
+from rest_framework.permissions import IsAuthenticated
+from .permissions import IsOwnerOrAdmin
 
+# Todo interaction via a ModelViewSet
 class TodoViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated, IsOwnerOrAdmin]
     serializer_class = TodoSerializer
-    queryset = Todo.objects.all()
-    #for API based on a field other than id
-    #lookup_field = 'title' 
+    lookup_field = 'title' # Use the title field to look up todos
+    
+    #Only get the todos of the user who is currently logged in
+    #Unless the user is a superuser, then they can see all todos
+    def get_queryset(self):
+        if self.request.user.is_superuser:
+            return Todo.objects.all()
+        else:
+            return Todo.objects.filter(user=self.request.user)
+    
+    #Only create a todo for the user who is currently logged in
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+# Todo interaction via an APIView
+class TodoByTitle(APIView):
+    permission_classes = [IsAuthenticated, IsOwnerOrAdmin]
+    
+    def get(self, request, title,):
+        todo = Todo.objects.filter(title=title).first()
+        if todo:
+            serializer = TodoSerializer(todo)
+            return Response(serializer.data)
+        return Response({"message": "Todo not found"}, 
+                        status=status.HTTP_404_NOT_FOUND)
+    
+    def put(self, request, title, format=None):
+        todo = Todo.objects.filter(title=title).first()
+        if todo:
+            serializer = TodoSerializer(todo, data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"message": "Todo not found"}, 
+                        status=status.HTTP_404_NOT_FOUND)
+    
+    def delete(self, request, title, format=None):
+        todo = Todo.objects.filter(title=title).first()
+        if todo:
+            todo.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response({"message": "Todo not found"}, 
+                        status=status.HTTP_404_NOT_FOUND)
+
+# Create a todo via an APIView
+class CreateTodo(APIView):
+    permission_classes = [IsAuthenticated, IsOwnerOrAdmin]
+    
+    def post(self, request, format=None):
+        serializer = TodoSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(user=request.user)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
