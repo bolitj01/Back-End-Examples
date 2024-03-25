@@ -8,4 +8,6 @@ urlpatterns = [
     path('delete/', views.delete_todo, name='delete_todo'),
     # e.g. /todo/update
     path('update/', views.update_todo, name='update_todo'),
+    # e.g. /todo/get
+    path('get/<str:title>/', views.get_todo, name='get_todo'),
 ]
