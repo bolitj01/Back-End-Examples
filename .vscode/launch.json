@@ -3,6 +3,14 @@
     "configurations": [
         
         {
+            "name": "Launch Chrome for React Vite",
+            "request": "launch",
+            "type": "chrome",
+            "url": "http://localhost:5173",
+            "webRoot": "${fileDirname}"
+        },
+
+        {
             "name": "Python Debugger: Django",
             "type": "debugpy",
             "request": "launch",
