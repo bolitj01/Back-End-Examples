@@ -76,3 +76,17 @@ class CreateTodo(APIView):
             serializer.save(user=request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+class ToggleCompleted(APIView):
+    permission_classes = [IsAuthenticated, IsOwnerOrAdmin]
+    
+    def put(self, request, format=None):
+        title = request.data["title"]
+        todo = Todo.objects.filter(title=title).first()
+        if todo:
+            todo.completed = not todo.completed
+            todo.save()
+            serializer = TodoSerializer(todo)
+            return Response(serializer.data)
+        return Response({"message": "Todo not found"}, 
+                        status=status.HTTP_404_NOT_FOUND)

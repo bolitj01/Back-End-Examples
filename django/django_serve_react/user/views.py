@@ -2,7 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.middleware.csrf import get_token
 
@@ -58,3 +58,21 @@ class LoginUser(APIView):
             return Response(f'User {username} logged in successfully!', status=status.HTTP_200_OK)
         else:
             return Response('Invalid username or password!', status=status.HTTP_401_UNAUTHORIZED)
+        
+class IsLoggedInView(APIView):
+    permission_classes = [AllowAny]  # Allow any user to access this view, regardless of authentication status
+
+    def get(self, request, format=None):
+        is_logged_in = request.user.is_authenticated
+        if is_logged_in:
+            return Response({"is_logged_in": True, "username": request.user.username})
+        else:
+            return Response({"is_logged_in": False})
+        
+class LogoutUser(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, format=None):
+        username = request.user.username
+        logout(request)
+        return Response(f'User {username} logged out!', status=status.HTTP_200_OK)

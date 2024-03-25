@@ -1,25 +1,29 @@
-import { useState, useEffect } from 'react'
-import axios from 'axios'
-import './App.css'
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import Register from './Register';
+import Login from './Login';
+import TodoList from './TodoList';
+import { CSRFTokenProvider } from './CSRFTokenContext';
+import { useCheckLogin } from './hooks/useCheckLogin';
 
 function App() {
-  const [todos, setTodos] = useState([])
 
-  // Fetch all todos
-  useEffect(() => {
-    const response = axios.get('http://localhost:8000/todos/')
-    .then(response => {
-        setTodos(response.data)
-    })
+  const { isLoggedIn, isLoading } = useCheckLogin();
 
-  }, [])
-  
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
-    <>
-      
-    </>
-  )
+    <CSRFTokenProvider>
+      <Router>
+        <Routes>
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/" element={isLoggedIn ? <TodoList /> : <Navigate to="/login" />} />
+        </Routes>
+      </Router>
+    </CSRFTokenProvider>
+  );
 }
 
-export default App
+export default App;

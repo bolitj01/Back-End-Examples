@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'corsheaders',
     'django_serve_react',
     'todo.apps.TodoConfig',
     'user.apps.UserConfig'
@@ -48,10 +49,20 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+# If your frontend and backend run on different ports on localhost:
+CSRF_TRUSTED_ORIGINS = ['http://localhost:5173']
+
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:5173',  # Allow React to connect to Django
+]
+
+CORS_ALLOW_CREDENTIALS = True
 
 ROOT_URLCONF = 'django_serve_react.urls'
 
