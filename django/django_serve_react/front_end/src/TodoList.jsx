@@ -3,12 +3,34 @@ import axios from 'axios';
 import Todo from './Todo';
 import CreateTodo from './CreateTodo';
 import { useCSRFToken } from './CSRFTokenContext';
+import { useNavigate } from 'react-router-dom';
 
 const TodoList = () => {
+
+    const navigate = useNavigate();
 
     const csrfToken = useCSRFToken();
 
     const [todos, setTodos] = useState([]);
+
+    const logout = async () => {
+        try {
+            const response = await axios.get(
+                '/backend/user/logout/',
+                {
+                    headers: {
+                        'X-CSRFToken': csrfToken,
+                    },
+                    withCredentials: true,
+                }
+            );
+            console.log('Logged out:', response.data);
+            navigate('/login');
+        }
+        catch (error) {
+            console.error('Failed to logout:', error);
+        }
+    }
 
     useEffect(() => {
         // Define the function to fetch todos
@@ -75,6 +97,7 @@ const TodoList = () => {
 
     return (
         <>
+            <button onClick={logout}>Logout</button>
             <CreateTodo addTodo={addTodo}/>
             <div>
                 <h2>Todo List</h2>

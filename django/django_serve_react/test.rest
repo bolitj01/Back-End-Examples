@@ -2,7 +2,7 @@
 @otherusername=haley
 @password=cs590pfw
 @superuser=bolitj01
-@csrf_token=E8Xxz8RG9uJAMixlzjSEGolfKxtJJ66zCaplbuZVUkolnXx1SG3WCoVOadLM4O2E
+@csrf_token=ZGCLZweVPnEvRATX0VWVonyS6IknwwxnUsVV0cuRqRvYM1HlIDjwq1ZsINKtEQ7G
 
 
 
@@ -49,6 +49,10 @@ X-CSRFToken: {{csrf_token}}
     "username": "{{otherusername}}",
     "password": "{{password}}"
 }
+
+### Logout user
+GET http://localhost:8000/user/logout/ HTTP/1.1
+X-CSRFToken: {{csrf_token}}
 
 ### Check if user is logged in
 GET http://localhost:8000/user/is_logged_in/ HTTP/1.1
@@ -104,8 +108,8 @@ Content-Type: application/json
 X-CSRFToken: {{csrf_token}}
 
 {
-    "title": "Buy groceries",
-    "description": "Milk, eggs, bread"
+    "title": "Finish HW",
+    "description": "HW5 Due in a few days!"
 }
 
 ### Update a todo sending title and description via JSON

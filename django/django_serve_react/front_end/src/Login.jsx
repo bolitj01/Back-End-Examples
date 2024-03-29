@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useCSRFToken } from './CSRFTokenContext';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 const Login = () => {
 
     const csrfToken = useCSRFToken();
+
+    const navigate = useNavigate();
 
     const [loginData, setLoginData] = useState({
         username: '',
@@ -30,7 +32,7 @@ const Login = () => {
                     },
                 });
             console.log('Login successful', response.data);
-            // Redirect or show success message
+            navigate('/');
         } catch (error) {
             console.error('Login failed', error);
         }
