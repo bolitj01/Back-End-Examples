@@ -252,3 +252,6 @@ dmypy.json
 .pyre/
 
 venv/
+
+# Django static files from collectstatic
+staticfiles/
