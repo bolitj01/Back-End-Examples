@@ -21,7 +21,7 @@ const Register = () => {
         console.log('Registering user', userData, csrfToken);
         try {
             const response = await axios.post(
-                'user/create_user/',
+                '/api/user/create_user/',
                 userData,
                 {
                     headers: {

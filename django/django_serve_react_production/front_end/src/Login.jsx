@@ -24,7 +24,7 @@ const Login = () => {
         try {
             console.log('Logging in user', loginData, csrfToken);
             const response = await axios.post(
-                'user/login/',
+                '/api/user/login/',
                 loginData,
                 {
                     headers: {

@@ -18,7 +18,7 @@ const CreateTodo = ({addTodo}) => {
         }
         try {
             const response = await axios.post(
-                '/backend/todo/create_todo/',
+                '/api/todo/create_todo/',
                 newTodo,
                 {
                     headers: {

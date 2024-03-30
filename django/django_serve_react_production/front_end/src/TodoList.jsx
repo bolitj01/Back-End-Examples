@@ -16,7 +16,7 @@ const TodoList = () => {
     const logout = async () => {
         try {
             const response = await axios.get(
-                'user/logout/',
+                '/api/user/logout/',
                 {
                     headers: {
                         'X-CSRFToken': csrfToken,
@@ -36,7 +36,7 @@ const TodoList = () => {
         // Define the function to fetch todos
         const fetchTodos = async () => {
           try {
-            const response = await axios.get('todo/mv/todos/');
+            const response = await axios.get('/api/todo/mv/todos/');
             console.log('Todos fetched:', response.data);
             setTodos(response.data); // Assuming the backend returns an array of todos
           } catch (error) {
@@ -55,7 +55,7 @@ const TodoList = () => {
     const deleteTodo = async (title) => {
         try {
             const response = await axios.delete(
-                `todo/mv/todos/${title}/`,
+                `/api/todo/mv/todos/${title}/`,
                 {
                     headers: {
                         'X-CSRFToken': csrfToken,
@@ -79,7 +79,7 @@ const TodoList = () => {
         const updatedTodo = { ...todo, completed: !todo.completed };
         try {
             const response = await axios.put(
-                `todo/toggle_completed/`,
+                `/api/todo/toggle_completed/`,
                 updatedTodo,
                 {
                     headers: {
