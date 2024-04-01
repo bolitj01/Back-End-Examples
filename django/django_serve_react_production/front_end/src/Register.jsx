@@ -1,11 +1,10 @@
 import { useState } from 'react';
 import axios from 'axios';
-import { useCSRFToken } from './CSRFTokenContext';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Register = () => {
 
-    const csrfToken = useCSRFToken();
+    const navigate = useNavigate();
 
     const [userData, setUserData] = useState({
         username: '',
@@ -18,19 +17,15 @@ const Register = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log('Registering user', userData, csrfToken);
+        console.log('Registering user', userData);
         try {
             const response = await axios.post(
                 '/api/user/create_user/',
-                userData,
-                {
-                    headers: {
-                        'X-CSRFToken': csrfToken,
-                    },
-                }
+                userData
             );
             console.log('Registration successful', response.data);
             // Redirect or show success message
+            navigate('/');
         } catch (error) {
             console.error('Registration failed', error);
         }

@@ -252,3 +252,5 @@ dmypy.json
 .pyre/
 
 venv/
+
+**/staticfiles/

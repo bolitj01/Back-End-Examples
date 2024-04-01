@@ -2,14 +2,11 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Todo from './Todo';
 import CreateTodo from './CreateTodo';
-import { useCSRFToken } from './CSRFTokenContext';
 import { useNavigate } from 'react-router-dom';
 
 const TodoList = () => {
 
     const navigate = useNavigate();
-
-    const csrfToken = useCSRFToken();
 
     const [todos, setTodos] = useState([]);
 
@@ -17,12 +14,6 @@ const TodoList = () => {
         try {
             const response = await axios.get(
                 '/api/user/logout/',
-                {
-                    headers: {
-                        'X-CSRFToken': csrfToken,
-                    },
-                    withCredentials: true,
-                }
             );
             console.log('Logged out:', response.data);
             navigate('/login');
@@ -56,12 +47,6 @@ const TodoList = () => {
         try {
             const response = await axios.delete(
                 `/api/todo/mv/todos/${title}/`,
-                {
-                    headers: {
-                        'X-CSRFToken': csrfToken,
-                    },
-                    withCredentials: true,
-                }
             );
             console.log('Todo deleted.');
             setTodos(todos.filter(todo => todo.title !== title));
@@ -81,12 +66,6 @@ const TodoList = () => {
             const response = await axios.put(
                 `/api/todo/toggle_completed/`,
                 updatedTodo,
-                {
-                    headers: {
-                        'X-CSRFToken': csrfToken,
-                    },
-                    withCredentials: true,
-                }
             );
             console.log('Todo updated: ', response.data);
             setTodos(todos.map(todo => todo.title === title ? updatedTodo : todo));

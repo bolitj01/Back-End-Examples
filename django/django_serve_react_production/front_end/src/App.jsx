@@ -2,7 +2,6 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import Register from './Register';
 import Login from './Login';
 import TodoList from './TodoList';
-import { CSRFTokenProvider } from './CSRFTokenContext';
 import { useCheckLogin } from './hooks/useCheckLogin';
 
 function App() {
@@ -14,7 +13,7 @@ function App() {
   }
 
   return (
-    <CSRFTokenProvider>
+    // <CSRFTokenProvider>
       <Router>
         <Routes>
           <Route path="/register" element={<Register />} />
@@ -22,7 +21,7 @@ function App() {
           <Route path="/" element={isLoggedIn ? <TodoList /> : <Navigate to="/login" />} />
         </Routes>
       </Router>
-    </CSRFTokenProvider>
+    // </CSRFTokenProvider>
   );
 }
 

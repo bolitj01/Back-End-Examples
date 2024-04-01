@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import axios from 'axios';
-import { useCSRFToken } from './CSRFTokenContext';
 import { Link, useNavigate } from 'react-router-dom';
 
 
@@ -25,12 +24,8 @@ const Login = () => {
             console.log('Logging in user', loginData, csrfToken);
             const response = await axios.post(
                 '/api/user/login/',
-                loginData,
-                {
-                    headers: {
-                        'X-CSRFToken': csrfToken,
-                    },
-                });
+                loginData
+            );
             console.log('Login successful', response.data);
             navigate('/');
         } catch (error) {

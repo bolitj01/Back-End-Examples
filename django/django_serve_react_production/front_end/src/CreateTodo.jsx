@@ -1,10 +1,7 @@
 import axios from "axios"
 import { useRef } from "react"
-import { useCSRFToken } from "./CSRFTokenContext"
 
 const CreateTodo = ({addTodo}) => {
-
-    const csrfToken = useCSRFToken()
 
     const titleRef = useRef()
     const descriptionRef = useRef()
@@ -20,12 +17,6 @@ const CreateTodo = ({addTodo}) => {
             const response = await axios.post(
                 '/api/todo/create_todo/',
                 newTodo,
-                {
-                    headers: {
-                        'X-CSRFToken': csrfToken
-                    },
-                    withCredentials: true
-                }
             )
             console.log('Todo created:', response.data)
             addTodo(newTodo)

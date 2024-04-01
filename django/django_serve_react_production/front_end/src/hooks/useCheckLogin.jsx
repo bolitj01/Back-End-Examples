@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-axios.defaults.withCredentials = true; // Ensure cookies are sent with requests
-
 export const useCheckLogin = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [isLoading, setIsLoading] = useState(true); // Track loading state
