@@ -20,6 +20,7 @@
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
     "@vitejs/plugin-react": "^4.0.3",
+    "artillery": "^2.0.9",
     "chai": "^5.1.0",
     "cypress": "^13.7.1",
     "eslint": "^8.45.0",
