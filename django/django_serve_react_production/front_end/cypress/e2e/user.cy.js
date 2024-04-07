@@ -32,6 +32,8 @@ describe('User Tests', () => {
     cy.wait('@loginRequest').then((interception) => {
       expect(interception.response.statusCode).to.eq(200)
     })
+    cy.visit('http://localhost')
+    cy.contains("Todo List")
   })
 
   it ('user logout', () => {

@@ -1,6 +1,5 @@
 from math import log
 from locust import HttpUser, task, between
-from shared_tasks import SharedTasks
 from faker import Faker
 import logging
 

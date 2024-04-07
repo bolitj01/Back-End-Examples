@@ -72,6 +72,6 @@ describe('Todo Tests', () => {
 
   it('deletes a todo', () => {
     cy.get(`[data-testid="delete-${test_title}"]`).click()
-    cy.contains('Test todo').should('not.exist')
+    cy.contains('h3', test_title).should('not.exist')
   })
 })
