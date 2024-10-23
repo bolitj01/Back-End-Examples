@@ -1,14 +1,18 @@
-import { createServer } from "http";
-const server = createServer();
+// Import the http module using ES6 syntax
+import http from 'http';
+
+// Define the hostname and port
+const hostname = '127.0.0.1'; // localhost default local IP address
 const port = 8080;
 
-function handler(req, res) {
-    res.writeHead(200, {'Content-Type': 'text/plain'});
-    res.write('Hello CS590!');
-    res.end();
-}
+// Create the server
+const server = http.createServer((req, res) => {
+  res.statusCode = 200; // HTTP status code: OK
+  res.setHeader('Content-Type', 'text/html');
+  res.end('<h1>Hello, Class!</h1>');
+});
 
-server.on('request', handler);
-server.listen(port);
-
-console.log('server is up running on port ' + port);
+// Start listening on the specified host and port
+server.listen(port, hostname, () => {
+  console.log(`Server running at http://${hostname}:${port}/`);
+});

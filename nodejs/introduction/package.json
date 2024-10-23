@@ -1,0 +1,17 @@
+{
+  "type": "module",
+  "name": "nodejs_introduction",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "hello": "nodemon --inspect hello_world.mjs",
+    "argv": "nodemon --inspect argv.mjs these are each an argument"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "nodemon": "^3.1.7"
+  }
+}
