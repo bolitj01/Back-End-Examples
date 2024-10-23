@@ -1,10 +1,11 @@
 import { createServer } from 'http';
-import { parse } from 'url';
+import { parse, fileURLToPath } from 'url';
 import { readFile } from 'fs';
 
 createServer(function (req, res) {
   const q = parse(req.url, true);
   const path = q.pathname;
+  const __dirname = fileURLToPath(new URL('.', import.meta.url));
   const filename = __dirname + path;
   
   readFile(filename, function(err, data) {

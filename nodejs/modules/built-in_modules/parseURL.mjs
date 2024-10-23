@@ -7,4 +7,5 @@ console.log(q.host);
 console.log(q.pathname); 
 console.log(q.search); 
 console.log(qdata); 
-console.log(qdata.month); 
+console.log(qdata.month);
+console.log(qdata.year);
