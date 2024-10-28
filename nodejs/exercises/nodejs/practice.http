@@ -1,0 +1,11 @@
+GET https://daily.dev/ HTTP/1.1
+
+###
+
+POST localhost:3000 HTTP/1.1
+Content-Type: application/json
+
+{
+  "name": "Tommy",
+  "class": "Web Dev"
+}
