@@ -37,6 +37,7 @@ app.use(
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
+//Any route with /users will be handled by the usersRouter
 app.use("/users", usersRouter);
 
 export default app;

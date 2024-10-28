@@ -1,10 +1,15 @@
-GET http://localhost:4000/ HTTP/1.1
+# URL Variable
+@url = http://localhost:8080
 
 ###
-GET http://localhost:4000/image HTTP/1.1
+
+GET {{url}}/ HTTP/1.1
 
 ###
-POST http://localhost:4000/signup HTTP/1.1
+GET {{url}}/image HTTP/1.1
+
+###
+POST {{url}}/signup HTTP/1.1
 Content-Type: application/json
 
 {
@@ -13,10 +18,7 @@ Content-Type: application/json
 }
 
 ###
-POST http://localhost:4000/signup HTTP/1.1
-Content-Type: application/json
+DELETE {{url}}/cookies HTTP/1.1
 
-{
-    "username": "Cameron",
-    "password": "FacebookStyle"
-}
+###
+GET {{url}}/0.gif HTTP/1.1

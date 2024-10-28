@@ -1,2 +1,3 @@
+{"username":"Tommy","password":"UnsafePlaintext","likesCats":true}
 {"username":"Tommy","password":"UnsafePlaintext"}
-{"username":"Cameron","password":"FacebookStyle"}
+{"username":"Tommy","password":"UnsafePlaintext","likesCats":false}
