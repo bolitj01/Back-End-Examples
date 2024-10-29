@@ -1,16 +1,16 @@
 {
   "type": "module",
-  "name": "static_pages",
+  "name": "hello_world",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "hello_world.js",
   "scripts": {
-    "start": "node index.mjs"
+    "start": "node hello_world.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.21.1"
   }
 }

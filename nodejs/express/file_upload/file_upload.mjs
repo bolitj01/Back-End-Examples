@@ -18,7 +18,7 @@ app.use(express.urlencoded({extended: true}));
 app.use(morgan('dev'));
 
 //start app 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8080;
 
 app.listen(port, () => 
   console.log(`App is listening on port ${port}.`)
@@ -35,8 +35,8 @@ app.post('/upload-files', async (req, res) => {
             let data = []; 
             
             //loop all files
-            lodash.forEach(lodash.keysIn(req.files.files), (key) => {
-                let file = req.files.files[key];
+            lodash.forEach(lodash.keysIn(req.files), (key) => {
+                let file = req.files[key];
                 
                 //move file to uploads directory
                 file.mv('./temp/' + file.name);
