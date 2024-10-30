@@ -22,13 +22,6 @@ app.use((req, res, next) => {
   }
 })
 
-
-// Routes
-app.get('/', (req, res)=>{
-  res.send('hello world')
-})
-
-
 // Error handlers
 
 // Bootup

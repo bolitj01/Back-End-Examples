@@ -1,33 +1,36 @@
+@HOST=http://localhost:8080
+@USERNAME=Tommy
 
 ### Get user list
-GET http://localhost:3000/users
+GET {{HOST}}/users/{{USERNAME}}
 
 ### Create user
 
-POST http://localhost:3000/users/create
+POST {{HOST}}/users/create
 Content-Type: application/json
 
 {
-  "username": "Tommy",
-  "password": "WebDev"
+  "username": "Tommy"
 }
 
 ### Successful login
 
-POST http://localhost:3000/users/login
+POST {{HOST}}/users/login
 Content-Type: application/json
 
 {
-  "username": "Tommy",
-  "password": "WebDev"
+  "username": "Tommy"
 }
 
 ### Failed login
 
-POST http://localhost:3000/users/login
+POST {{HOST}}/users/login
 Content-Type: application/json
 
 {
-  "username": "Tommy",
-  "password": "web_dev"
+  "username": "Kevin"
 }
+
+### Delete user
+
+DELETE {{HOST}}/users/{{USERNAME}}

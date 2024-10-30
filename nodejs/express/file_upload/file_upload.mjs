@@ -50,7 +50,7 @@ app.post('/upload-files', async (req, res) => {
             });
     
             //return response
-            res.send({
+            res.json({
                 status: true,
                 message: 'Files are uploaded',
                 data: data

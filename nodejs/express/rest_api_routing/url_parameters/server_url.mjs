@@ -2,7 +2,6 @@
 
 // Imports
 import express from 'express'
-import { json } from 'body-parser'
 
 // Instantiations
 const app = express()
@@ -11,7 +10,7 @@ var profile = []
 // Configurations
 
 // Middleware
-app.use(json())
+app.use(express.json())
 
 // Routes
 app.get('/profile', (req, res) => {
@@ -22,6 +21,7 @@ app.get('/profile', (req, res) => {
 })
 
 app.post('/profile', (req, res) => {
+    console.log(req.body)
     profile.push(req.body)
     console.log('created', profile)
     res.status(201).send()

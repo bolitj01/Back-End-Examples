@@ -1,0 +1,15 @@
+@host=http://localhost:8080
+
+###
+GET {{host}}/profile HTTP/1.1
+
+###
+POST {{host}}/profile HTTP/1.1
+Content-Type: application/json
+
+{
+    "username": "Tommy"
+}
+
+###
+DELETE {{host}}/profile/0 HTTP/1.1
