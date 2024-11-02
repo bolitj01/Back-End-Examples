@@ -1,0 +1,49 @@
+@HOST=http://localhost:8080
+@USERNAME=tommy
+@PASSWORD=webdeviscool
+### Get user by username
+GET {{HOST}}/profile/{{USERNAME}}
+
+### Create user
+
+POST {{HOST}}/users/create
+Content-Type: application/json
+
+{
+  "username": "{{USERNAME}}",
+  "password": "{{PASSWORD}}"
+}
+
+### Successful login
+
+POST {{HOST}}/users/login
+Content-Type: application/json
+
+{
+  "username": "{{USERNAME}}",
+  "password": "{{PASSWORD}}"
+}
+
+### Logout
+
+POST {{HOST}}/users/logout
+Content-Type: application/json
+
+{
+  "username": "{{USERNAME}}",
+  "password": "{{PASSWORD}}"
+}
+
+### Failed login
+
+POST {{HOST}}/users/login
+Content-Type: application/json
+
+{
+  "username": "{{USERNAME}}",
+  "password": "wrongpassword"
+}
+
+### Delete user
+
+DELETE {{HOST}}/users/{{USERNAME}}

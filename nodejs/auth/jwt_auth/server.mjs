@@ -25,11 +25,11 @@ function authenticateToken(req, res, next) {
   const authHeader = req.headers['authorization']
   //Authorization header looks like "BEARER TOKEN_STRING"
   const token = authHeader && authHeader.split(' ')[1] //Just get "TOKEN_STRING" part
-  if (token == null) return res.sendStatus(401) //UNAUTHORIZED status
+  if (token == null) return res.status(401).send("Missing access token") //UNAUTHORIZED status
 
   verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
     console.log(err)
-    if (err) return res.sendStatus(403) //FORBIDDEN status
+    if (err) return res.status(403).send("Failed access token: " + err) //FORBIDDEN status
     req.user = user
     next()
   })
