@@ -15,7 +15,7 @@ const SendMessage = ({ scroll }) => {
     await addDoc(collection(db, "messages"), {
       text: message,
       name: displayName,
-      avatar: photoURL,
+      avatar: avatar,
       createdAt: serverTimestamp(),
       uid,
     });
