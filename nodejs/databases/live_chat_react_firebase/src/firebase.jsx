@@ -12,7 +12,7 @@ const firebaseConfig = {
   apiKey: "AIzaSyAwGl9CUBWNY1ll8HeOU2wHfYLwsmMh4tI",
   authDomain: "cs590-webapp.firebaseapp.com",
   projectId: "cs590-webapp",
-  storageBucket: "cs590-webapp.appspot.com",
+  storageBucket: "cs590-webapp.firebasestorage.app",
   messagingSenderId: "505027092626",
   appId: "1:505027092626:web:7ca7a1318e9b10ef09464b",
   measurementId: "G-7BT3XV8RCG"
@@ -21,5 +21,6 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
+console.log("Firebase initialized");
 export const auth = getAuth(app);
 export const db = getFirestore(app);
