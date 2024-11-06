@@ -1,0 +1,8 @@
+@URL = http://localhost:8080
+@NAME = Tommy
+
+###
+GET {{URL}}/friends/{{NAME}} HTTP/1.1
+
+###
+GET {{URL}}/friend-suggestions/{{NAME}} HTTP/1.1
