@@ -3,23 +3,24 @@ import { useEffect, useState } from 'react';
 
 function App() {
   
-  //fetch to /api/login
+  const [backendData, setBackendData] = useState("")
+
+  //fetch to /login
   useEffect(() => {
-    fetch('/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ username: 'admin', password: 'admin' }),
-    })
-    .then((response) => response.json())
-    .then((data) => console.log(data))
-    .catch((error) => console.log(error));
+    const talkToBackend = async () => {
+      //Add /api prefix during development to trigger the Vite proxy
+      const response = await fetch("/talk-to-backend");
+      console.log(response);
+      const data = await response.text();
+      setBackendData(data);
+    };
+    talkToBackend();
   }, []);
 
   return (
     <div>
       <h1>Front End Served!</h1>
+      <h3>{backendData}</h3>
     </div>
   );
 }

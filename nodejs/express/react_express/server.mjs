@@ -1,6 +1,7 @@
 import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import cors from 'cors';
 
 const app = express();
 
@@ -10,6 +11,9 @@ const __dirname = path.dirname(__filename);
 const buildFolder = "dist";
 console.log('__dirname: ', __dirname);
 
+//Accept outside requests
+app.use(cors());
+
 // Server build folder from React
 app.use(express.static(path.join(__dirname, buildFolder)));
 app.use(express.json());
@@ -18,6 +22,10 @@ app.use(express.json());
 app.get('/', (req, res) => {
     console.log("Home Page");
     res.sendFile(path.resolve(__dirname, buildFolder, 'index.html'));
+});
+
+app.get("/talk-to-backend", (req, res) => {
+    res.send("Hello from the backend!");
 });
 
 app.post("/login", (req, res) => {

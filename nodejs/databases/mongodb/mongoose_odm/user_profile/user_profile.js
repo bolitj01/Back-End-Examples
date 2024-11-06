@@ -1,7 +1,7 @@
 // Example adapted from Azat Mardan
 
 // Imports
-import express, { json } from 'express'
+import express from 'express'
 import m from "mongoose";
 
 // Instantiations
@@ -19,7 +19,7 @@ const Profile = m.model('Profile', profileSchema)
 // Configurations
 
 // Middleware
-app.use(json()) //BodyParser has been integrated into Express, now you can call this instead
+app.use(express.json())
 
 // Routes
 app.get('/profile', (req, res) => {
