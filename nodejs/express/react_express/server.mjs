@@ -12,7 +12,7 @@ const buildFolder = "dist";
 console.log('__dirname: ', __dirname);
 
 //Accept outside requests
-app.use(cors());
+// app.use(cors()); Or set changeOrigin in the vite config proxy
 
 // Server build folder from React
 app.use(express.static(path.join(__dirname, buildFolder)));

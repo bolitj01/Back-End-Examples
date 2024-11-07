@@ -9,7 +9,7 @@ function App() {
   useEffect(() => {
     const talkToBackend = async () => {
       //Add /api prefix during development to trigger the Vite proxy
-      const response = await fetch("/talk-to-backend");
+      const response = await fetch("/api/talk-to-backend");
       console.log(response);
       const data = await response.text();
       setBackendData(data);
