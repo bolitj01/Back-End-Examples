@@ -50,9 +50,9 @@ app.get("/", (req, res) => {
 app.get("/friends/:name", (req, res) => {
   const session = driver.session();
   const name = req.params.name;
-  const query = `MATCH (u1:User)-[:FRIEND_WITH]->(u2:User) 
-                    WHERE u1.name = $name 
-                    RETURN u2.name AS friend`;
+  const query = `MATCH (u1:Person)-[:FRIEND_WITH]->(u2:Person) 
+                    WHERE u1.Name = $name 
+                    RETURN u2.Name AS friend`;
   const params = { name: name };
   session
     .run(query, params)
@@ -71,11 +71,11 @@ app.get("/friends/:name", (req, res) => {
 app.get("/friend-suggestions/:name", (req, res) => {
   const session = driver.session();
   const name = req.params.name;
-  const query = `MATCH (u1:User)-[:FRIEND_WITH]->(f:User)-[:FRIEND_WITH]->(ff:User)
-                    WHERE u1.name = "Tommy" AND NOT (u1)-[:FRIEND_WITH]->(ff) AND ff <> u1
+  const query = `MATCH (u1:Person)-[:FRIEND_WITH]->(f:Person)-[:FRIEND_WITH]->(ff:Person)
+                    WHERE u1.Name = $name AND NOT (u1)-[:FRIEND_WITH]->(ff) AND ff <> u1
                     ORDER BY rand()
                     LIMIT 20
-                    RETURN ff.name AS suggestedFriend;`;
+                    RETURN ff.Name AS suggestedFriend;`;
   const params = { name: name };
   session
     .run(query, params)

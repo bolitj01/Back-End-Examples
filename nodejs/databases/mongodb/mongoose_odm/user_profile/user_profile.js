@@ -7,7 +7,7 @@ import m from "mongoose";
 // Instantiations
 const app = express()
 
-const remoteurl = 'mongodb+srv://chester_the_tester:pfwcs@pfw-cs.ctovaum.mongodb.net/?retryWrites=true&w=majority';
+const remoteurl = 'mongodb+srv://chester_the_tester:pfwcs@pfw-cs.ctovaum.mongodb.net/?retryWrites=true&w=majority&appName=pfw-cs';
 m.connect(remoteurl, { useNewUrlParser: true, useUnifiedTopology: true })
 
 const profileSchema = m.Schema({

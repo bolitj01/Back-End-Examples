@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
 
 const courseSchema = mongoose.Schema({name: String})
 
-const remoteurl = 'mongodb+srv://chester_the_tester:cs590@pfw-cs.ctovaum.mongodb.net/newcourses?retryWrites=true&w=majority';
+const remoteurl = 'mongodb+srv://chester_the_tester:pfwcs@pfw-cs.ctovaum.mongodb.net/?retryWrites=true&w=majority&appName=pfw-cs';
 mongoose.connect(remoteurl, { useNewUrlParser: true, useUnifiedTopology: true })
 
 let Course = mongoose.model('Course', courseSchema)
@@ -15,7 +15,8 @@ let devCourse = new Course({    name: 'Dev Ops',
                                 startDate: new Date(),    
                             })
 let realityCourse = new Course({ name: 'Augmented Reality/Virtual Reality'})
-
+let webDevCourse = new Course({ name: 'Full-Stack Web Development'})
 let result = await devCourse.save();
 await realityCourse.save();
+await webDevCourse.save();
 console.log('Saved: ', result);
