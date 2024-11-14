@@ -1,6 +1,5 @@
 // participantsReducer.js
-import { createSlice } from "@reduxjs/toolkit";
-import { v4 } from "uuid";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 /**
  * Participant structure:
@@ -12,14 +11,33 @@ import { v4 } from "uuid";
 
 /**
  * Room Structure:
- * [participants: []],
+ * {
+ *  number: number,
+ *  [participants: []],
+ * }
  */
 
 const roomCount = 9;
 
+export const fetchRooms = createAsyncThunk("rooms/fetchRooms", async () => {
+  const response = await fetch("/api/rooms");
+  const data = await response.json();
+  let rooms = Array.from({ length: roomCount }, (_, i) => ({}));
+  data.forEach((room) => {
+    rooms[room.number - 1] = {
+      number: room.number,
+      participants: room.participants.map((p) => ({
+        id: p._id,
+        name: p.name,
+      })),
+    };
+  });
+  return rooms;
+});
+
 const initialState = {
   waitingRoom: [], // Participants in the waiting room
-  rooms: Array.from({ length: roomCount }, (_, i) => []), // Array of rooms by #
+  rooms: [], // Array of rooms by #
   roomCount: roomCount,
 };
 
@@ -28,27 +46,26 @@ const roomsSlice = createSlice({
   initialState,
   reducers: {
     addParticipant: (state, action) => {
+      const { id, name } = action.payload;
       // New participant is added to the waiting room
       state.waitingRoom.push({
-        id: v4(),
-        name: action.payload,
+        id: id,
+        name: name,
       });
     },
     removeParticipant: (state, action) => {
       const { participantId } = action.payload;
       state.rooms.forEach((room) => {
-        const index = room.findIndex((p) => p.id === participantId);
-        state.waitingRoom.push(room[index]); // Add participant back to waiting room
+        const index = room.participants.findIndex((p) => p.id === participantId);
         if (index !== -1) {
-          room.splice(index, 1); // Remove participant from room
+          room.participants.splice(index, 1);
         }
       });
     },
     addToRoom: (state, action) => {
       const { participantId, roomIndex } = action.payload;
-      //Find the participant in either the waiting room or other rooms
-      //Remove the participant from that room
-      //Add the participant to rooms[roomIndex]
+      // Find the participant in either the waiting room or other rooms
+      // Remove the participant from that room
       let participant = state.waitingRoom.find((p) => p.id === participantId);
       if (participant) {
         state.waitingRoom = state.waitingRoom.filter(
@@ -56,15 +73,20 @@ const roomsSlice = createSlice({
         );
       } else {
         state.rooms.forEach((room) => {
-          const index = room.findIndex((p) => p.id === participantId);
+          const index = room.participants.findIndex((p) => p.id === participantId);
           if (index !== -1) {
-            participant = room[index];
-            room.splice(index, 1);
+            participant = room.participants[index];
+            room.participants.splice(index, 1);
           }
         });
       }
-      state.rooms[roomIndex].push(participant);
+      state.rooms[roomIndex].participants.push(participant);
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(fetchRooms.fulfilled, (state, action) => {
+      state.rooms = action.payload;
+    });
   },
 });
 
