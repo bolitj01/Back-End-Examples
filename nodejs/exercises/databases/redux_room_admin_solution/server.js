@@ -52,6 +52,20 @@ app.post("/create-participant", async (req, res) => {
   }
 });
 
+app.get("/waitingroom", async (req, res) => {
+  try {
+    // Find all participants who are not in the participants array of any room
+    const participantIdsInRooms = await Room.distinct("participants");
+    const waitingRoom = await Participant.find({
+      _id: { $nin: participantIdsInRooms },
+    });
+    res.json(waitingRoom);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
 app.get("/rooms", async (req, res) => {
   //Get all rooms and participant names
   const rooms = await Room.find({}).populate("participants");

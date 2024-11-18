@@ -11,7 +11,12 @@ const port = 8080;
 
 app.use(express.json());
 
-//TODO Add your code here
+//TODO Create routes for the following:
+// POST /create-rooms
+// POST /create-participant
+// GET /waitingroom
+// GET /rooms
+// POST /api/join
 
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);

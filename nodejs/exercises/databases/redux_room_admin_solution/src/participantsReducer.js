@@ -35,6 +35,12 @@ export const fetchRooms = createAsyncThunk("rooms/fetchRooms", async () => {
   return rooms;
 });
 
+export const fetchWaitingRoom = createAsyncThunk("rooms/fetchWaitingRoom", async () => {
+  const response = await fetch("/api/waitingroom");
+  const data = await response.json();
+  return data.map((p) => ({id: p._id, name: p.name}));
+});
+
 const initialState = {
   waitingRoom: [], // Participants in the waiting room
   rooms: [], // Array of rooms by #
@@ -46,10 +52,10 @@ const roomsSlice = createSlice({
   initialState,
   reducers: {
     addParticipant: (state, action) => {
-      const { id, name } = action.payload;
+      const { _id, name } = action.payload;
       // New participant is added to the waiting room
       state.waitingRoom.push({
-        id: id,
+        id: _id,
         name: name,
       });
     },
@@ -86,6 +92,9 @@ const roomsSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(fetchRooms.fulfilled, (state, action) => {
       state.rooms = action.payload;
+    });
+    builder.addCase(fetchWaitingRoom.fulfilled, (state, action) => {
+      state.waitingRoom = action.payload;
     });
   },
 });

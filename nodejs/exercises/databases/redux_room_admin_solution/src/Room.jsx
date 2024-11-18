@@ -9,8 +9,6 @@ const Room = ({ roomIndex }) => {
 
   const roomState = useSelector((state) => state.participants.rooms[roomIndex]);
 
-  console.log("Room " + roomIndex + " rendered");
-
   const handleDrop = async (e) => {
     e.preventDefault();
     const participantId = e.dataTransfer.getData("participantId");
