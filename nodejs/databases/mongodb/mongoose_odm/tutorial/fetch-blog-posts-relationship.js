@@ -11,7 +11,7 @@ const postSchema = m.Schema({
     text: String
 })
 
-const remoteurl = 'mongodb+srv://chester_the_tester:pfwcs@pfw-cs.ctovaum.mongodb.net/?retryWrites=true&w=majority';
+const remoteurl = 'mongodb+srv://chester_the_tester:pfwcs537@pfw-cs.ctovaum.mongodb.net/?retryWrites=true&w=majority';
 m.connect(remoteurl, { useNewUrlParser: true, useUnifiedTopology: true })
 
 let Post = m.model('Post', postSchema)
