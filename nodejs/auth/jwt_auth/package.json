@@ -5,7 +5,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "cocurrently \"npm run server\" \"npm run auth\"",
+    "start": "concurrently \"npm run server\" \"npm run auth\"",
     "server": "nodemon server.mjs",
     "auth": "nodemon authServer.mjs",
     "client": "vite",

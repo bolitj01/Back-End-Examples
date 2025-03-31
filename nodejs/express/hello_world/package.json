@@ -5,12 +5,13 @@
   "description": "",
   "main": "hello_world.js",
   "scripts": {
-    "start": "node hello_world.js"
+    "start": "nodemon --inspect hello_world.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.21.1"
+    "express": "^4.21.1",
+    "nodemon": "^3.1.9"
   }
 }

@@ -1,0 +1,18 @@
+{
+  "type": "module",
+  "name": "progress_bar_spinner",
+  "version": "1.0.0",
+  "main": "progressBar.js",
+  "scripts": {
+    "spinner": "node spinner.mjs",
+    "progress": "node progressBar.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "ora": "^8.2.0",
+    "progress": "^2.0.3"
+  }
+}

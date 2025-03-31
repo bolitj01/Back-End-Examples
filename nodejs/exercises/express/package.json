@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon server.mjs",
+    "start": "nodemon --inspect server.mjs",
     "solution": "nodemon server_solution.mjs"
   },
   "keywords": [],
