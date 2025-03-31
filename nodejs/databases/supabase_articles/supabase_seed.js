@@ -10,7 +10,7 @@ const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY
 // Authenticate user with their email and password
 const { data, error } = await supabase.auth.signInWithPassword({
     email: 'tom@pfw.edu',
-    password: 'tom',
+    password: 'PFWcsW3bD3v!',
 });
 
 if (error) {
