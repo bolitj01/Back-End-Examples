@@ -9,28 +9,55 @@ const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY
 
 // Authenticate user with their email and password
 const { data, error } = await supabase.auth.signInWithPassword({
-    email: 'tom@pfw.edu',
-    password: 'PFWcsW3bD3v!',
+    email: process.env.SUPABASE_USER_EMAIL,
+    password: process.env.SUPABASE_USER_PASSWORD,
 });
 
 if (error) {
     console.error('Error authenticating user:', error.message);
 } else {
-    console.log('User authenticated successfully:', data.user);
+    console.log('User authenticated successfully:', data.user.email);
 }
 
-//Delete everything from authors and articles tables
-// const articleIds = await supabase.from('articles').select('id');
-// const { data: articlesData, error: articlesError } = await supabase.from('articles').delete().in(articleIds.data.map(( data ) => data.id));
-// if (articlesError) {
-//     console.error('Error deleting articles:', articlesError.message);
-// }
+// Delete everything from articles table
+const { data: articleIds, error: articleSelectError } = await supabase
+  .from('articles')
+  .select('id');
 
-// const authorIds = await supabase.from('authors').select('id');
-// const { data: authorsData, error: authorsError } = await supabase.from('authors').delete().in(authorIds.data.map(( data) => data.id));
-// if (authorsError) {
-//     console.error('Error deleting authors:', authorsError.message);
-// }
+if (articleSelectError) {
+  console.error('Error selecting articles:', articleSelectError.message);
+} else if (articleIds.length > 0) {
+  const { error: articlesError } = await supabase
+    .from('articles')
+    .delete()
+    .in('id', articleIds.map((data) => data.id));
+
+  if (articlesError) {
+    console.error('Error deleting articles:', articlesError.message);
+  } else {
+    console.log('All articles deleted successfully.');
+  }
+}
+
+// Delete everything from authors table
+const { data: authorIds, error: authorSelectError } = await supabase
+  .from('authors')
+  .select('id');
+
+if (authorSelectError) {
+  console.error('Error selecting authors:', authorSelectError.message);
+} else if (authorIds.length > 0) {
+  const { error: authorsError } = await supabase
+    .from('authors')
+    .delete()
+    .in('id', authorIds.map((data) => data.id));
+
+  if (authorsError) {
+    console.error('Error deleting authors:', authorsError.message);
+  } else {
+    console.log('All authors deleted successfully.');
+  }
+}
 
 // Sample data
 const authors = [

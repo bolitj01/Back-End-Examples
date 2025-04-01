@@ -74,7 +74,6 @@ const remoteurl = 'mongodb+srv://chester_the_tester:pfwcs@pfw-cs.ctovaum.mongodb
 
 // Use connect method to connect to the Server
 MongoClient.connect(remoteurl,
-  { useUnifiedTopology: true },
   async (err, client) => {
     if (err)
       return process.exit(1)
