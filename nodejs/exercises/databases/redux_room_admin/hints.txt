@@ -1,0 +1,11 @@
+Hints:
+
+mongoose model ref attribute for "foreign key"
+
+"$nin: " query condition for "not in"
+
+Model.distinct(field) finds all unique instances
+
+mongoose query populate() on reference key
+
+array .filter and .includes
