@@ -22,7 +22,7 @@ const roomCount = 9;
 export const fetchRooms = createAsyncThunk("rooms/fetchRooms", async () => {
   const response = await fetch("/api/rooms");
   const data = await response.json();
-  let rooms = Array.from({ length: roomCount }, (_, i) => ({}));
+  let rooms = Array.from({ length: roomCount }, () => ({}));
   data.forEach((room) => {
     rooms[room.number - 1] = {
       number: room.number,
