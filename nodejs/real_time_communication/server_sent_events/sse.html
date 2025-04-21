@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SSE Grid Notification Game</title>
+  <style>
+    body { font-family: sans-serif; text-align: center; padding: 20px; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 100px);
+      grid-gap: 10px;
+      justify-content: center;
+    }
+    .square {
+      width: 100px;
+      height: 100px;
+      background-color: white;
+      border: 2px solid #333;
+      font-size: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      user-select: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>Grid Notification Game</h1>
+  <div class="grid" id="grid"></div>
+
+  <script>
+    const gridElement = document.getElementById('grid');
+    const state = Array(9).fill(0);
+
+    // Create grid squares
+    for (let i = 0; i < 9; i++) {
+      const square = document.createElement('div');
+      square.className = 'square';
+      square.dataset.index = i;
+      gridElement.appendChild(square);
+    }
+
+    // Color logic
+    function updateColor(square, count) {
+      if (count === 0) square.style.backgroundColor = 'white';
+      else if (count === 1) square.style.backgroundColor = 'green';
+      else if (count === 2) square.style.backgroundColor = 'yellow';
+      else square.style.backgroundColor = 'red';
+
+      square.textContent = count > 0 ? count : '';
+    }
+
+    // Handle clicks
+    gridElement.addEventListener('click', async (e) => {
+      if (!e.target.classList.contains('square')) return;
+
+      const i = parseInt(e.target.dataset.index);
+      if (state[i] > 0) {
+        state[i]--;
+        updateColor(e.target, state[i]);
+
+        // Notify server
+        await fetch(`http://localhost:8080/click/${i}`, { method: 'POST' });
+      }
+    });
+
+    // SSE setup
+    const evtSource = new EventSource('http://localhost:8080/events');
+
+    evtSource.onmessage = function (event) {
+      const { index, count } = JSON.parse(event.data);
+      state[index] = count;
+
+      const square = gridElement.querySelector(`[data-index="${index}"]`);
+      updateColor(square, count);
+    };
+  </script>
+</body>
+</html>

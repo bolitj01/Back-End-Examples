@@ -25,7 +25,7 @@ let driver;
 })();
 
 const app = express();
-const port = 8080;
+const port = 8082;
 
 // Get __dirname in es6 modules
 const __filename = fileURLToPath(import.meta.url);
