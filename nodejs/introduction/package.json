@@ -4,8 +4,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "hello": "nodemon --inspect hello_world.mjs",
-    "argv": "nodemon --inspect argv.mjs these are each an argument"
+    "hello": "node --inspect --watch hello_world.mjs",
+    "argv": "node --inspect --watch argv.mjs these are each an argument"
   },
   "keywords": [],
   "author": "",
