@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "hello": "node --inspect --watch hello_world.mjs",
-    "argv": "node --inspect --watch argv.mjs these are each an argument"
+    "process": "node --env-file=.env --inspect --watch process_global.mjs Back-End Development is fun!"
   },
   "keywords": [],
   "author": "",
