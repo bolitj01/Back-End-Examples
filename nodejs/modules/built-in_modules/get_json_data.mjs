@@ -1,3 +1,5 @@
+//This is one example of built-in nodejs web requests
+//but we will use express for our web server needs
 import { request } from "https";
 
 const options = {
