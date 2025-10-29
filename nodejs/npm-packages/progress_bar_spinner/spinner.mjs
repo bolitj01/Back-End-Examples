@@ -1,9 +1,9 @@
 import ora from 'ora';
-const spinner = ora('Loading unicorns').start();
+const spinner = ora('Loading something interesting...').start();
 setTimeout(() => {
-	spinner.color = 'yellow';
-	spinner.text = 'Loading rainbows';
+	spinner.color = 'blue';
     setTimeout(() => {
         spinner.stop();
+        console.log('Done!');
     }, 3000);
 }, 3000);
