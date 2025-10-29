@@ -1,5 +1,5 @@
 import { EventEmitter } from 'events';
-import readline from 'readline';
+import readline from 'readline/promises';
 
 //EventEmitter allows creation of custom events to attach listeners to them
 
