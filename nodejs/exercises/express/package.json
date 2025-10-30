@@ -4,15 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --inspect server.mjs",
-    "solution": "nodemon server_solution.mjs"
+    "start": "node --watch --inspect server.mjs",
+    "solution": "node --watch server_solution.mjs"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "cookie-parser": "^1.4.7",
-    "express": "^4.21.1"
+    "express": "^5.1.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.7"

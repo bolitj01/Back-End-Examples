@@ -1,6 +1,5 @@
 // Imports
 import express from 'express' 
-import { json } from 'body-parser'
 
 // Instantiations
 const app = express() 
@@ -9,13 +8,14 @@ const app = express()
 app.set('port', process.env.PORT || 8080)
 
 // Middleware
-app.use(json())
+app.use(express.json())
 app.use((req, res, next) => {
   console.log(`${req.method}:${req.url}`)
   next()
 })
 
-app.use((req, res, next) => {
+//Pretend auth middleware
+app.use("/account", (req, res, next) => {
   if (req.query.api_key) {
     next()
   } else {
