@@ -29,16 +29,16 @@ app.get('/', (req, res)=>{
 })
 
 app.get('/account', (req, res) => {
-  res.send({msg: 'account'})
+  res.json({msg: 'account'})
 })
 
 app.post('/account', (req, res) => {
   console.log(req.body) //body parsed by body-parser
-  res.send({msg: 'account'})
+  res.json({msg: 'account'})
 })
 
 app.get('/transaction', (req, res) => {
-  res.send({msg: 'transaction'})
+  res.json({msg: 'transaction'})
 })
 
 // Error handlers
