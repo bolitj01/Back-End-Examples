@@ -2,95 +2,54 @@
   Refer to https://www.edx.org/course/introduction-to-nodejs by Azat Mardan
 */
 
-import MongoClient from 'mongodb';
+import { MongoClient } from "mongodb";
 
-const insertDocuments = (collection) => {
-  return new Promise((resolve, reject) => {// Insert 3 documents
-    collection.insertMany([
-      { name: 'Bob' }, { name: 'John' }, { name: 'Peter' } // 3 documents
-    ], (error, result) => {
-      if (error)
-        reject();
+const remoteurl =
+  "mongodb+srv://chester_the_tester:pfwcs537@pfw-cs.ctovaum.mongodb.net/?retryWrites=true&w=majority&appName=pfw-cs";
 
-      console.log(result.insertedCount); // will be 3
-      console.log('Inserted 3 documents into the course-students collection');
+async function run() {
+  const client = new MongoClient(remoteurl, { useUnifiedTopology: true });
 
-      resolve();
-    })
-  });
-};
+  try {
+    await client.connect();
+    const db = client.db("course-db");
+    console.log("Connected to " + db.databaseName);
 
-const updateDocument = (collection) => {
-  return new Promise((resolve, reject) => {
-    // Update document where a is 2, set b equal to 1
-    const name = 'Peter'
-    collection.updateOne({ name: name }, { $set: { grade: 'A' } }, (error, result) => {
-      if (error)
-        reject()
+    const collection = db.collection("course-students");
 
-      console.dir(result.modifiedCount) // will be 1
-      console.log(`Updated the student document where name = ${name}`)
+    // Insert 3 documents
+    const insertResult = await collection.insertMany([
+      { name: "Bob" },
+      { name: "John" },
+      { name: "Peter" },
+    ]);
+    console.log(insertResult.insertedCount, "documents inserted");
 
-      resolve();
-    })
-  });
-};
+    // Update a document
+    const nameToUpdate = "Peter";
+    const updateResult = await collection.updateOne(
+      { name: nameToUpdate },
+      { $set: { grade: "A" } }
+    );
+    console.log(updateResult.modifiedCount, `document(s) updated where name = ${nameToUpdate}`);
 
-const removeDocument = (collection) => {
-  return new Promise((resolve, reject) => {
-    // Insert some documents
-    const name = 'Bob'
-    collection.deleteOne({ name: name }, (error, result) => {
-      if (error)
-        reject();
+    // Remove a document
+    const nameToRemove = "Bob";
+    const deleteResult = await collection.deleteOne({ name: nameToRemove });
+    console.log(deleteResult.deletedCount, `document(s) removed where name = ${nameToRemove}`);
 
-      console.log(result.deletedCount) // will be 1
-      console.log(`Removed the document where name = ${name}`)
-
-      resolve();
-    })
-  })
-};
-
-const findDocuments = (collection) => {
-  return new Promise((resolve, reject) => {
-    // Find some documents
-    collection.find({}).toArray((error, docs) => {
-      if (error)
-        reject();
-
-      console.dir(docs.length)   // will be 2 because we removed one document
-      console.log(`Found the following documents:`)
-      console.dir(docs)
-
-      resolve();
-    })
-  });
-};
-
-// Connection URI (This is a database on my MongoDB Atlas)
-const remoteurl = 'mongodb+srv://chester_the_tester:pfwcs@pfw-cs.ctovaum.mongodb.net/?retryWrites=true&w=majority&appName=pfw-cs';
-// const localurl = 'mongodb://localhost:27017'
-
-// Use connect method to connect to the Server
-MongoClient.connect(remoteurl,
-  async (err, client) => {
-    if (err)
-      return process.exit(1)
-
-    const db = client.db('course-db')
-    console.log('Connected to ' + db.databaseName)
-
-    const collection = db.collection('course-students')
-
-    await insertDocuments(collection);
-
-    await updateDocument(collection);
-
-    await removeDocument(collection);
-
-    await findDocuments(collection);
-
-    client.close();
+    // Find documents
+    const docs = await collection.find({}).toArray();
+    console.log(docs.length, "documents found:");
+    console.dir(docs);
+  } catch (err) {
+    console.error("Error:", err);
+  } finally {
+    await client.close();
+    console.log("Connection closed");
   }
-);
+}
+
+run().catch((err) => {
+  console.error("Unhandled error:", err);
+});

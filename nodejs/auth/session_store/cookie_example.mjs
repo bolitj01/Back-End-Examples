@@ -8,12 +8,12 @@ const app = express(), port = process.env.PORT || 8080
 app.use(cookieParser(process.env.COOKIE_SECRET))
 app.get("/cookie", (req, res) => {
     res
-        .cookie("cs590", "Web Dev is very marketable!")
+        .cookie("cs537", "Web Dev is very marketable!")
         .send("Check your cookies!")
 })
 app.get("/signed_cookie", (req, res) => {
     res
-        .cookie("cs590_signed", "Signed cookies detect any changes by the client", {
+        .cookie("cs537_signed", "Signed cookies detect any changes by the client", {
             signed: true,
         })
         .send("Check your signed cookies, but don't change them!")

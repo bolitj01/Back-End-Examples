@@ -1,12 +1,11 @@
-import m from 'mongodb';
-const {MongoClient} = m;
+import mongodb from 'mongodb';
 
 // Connection URI (This is a database on my MongoDB Atlas)
-const remoteurl = 'mongodb+srv://chester_the_tester:pfwcs@pfw-cs.ctovaum.mongodb.net/?retryWrites=true&w=majority&appName=pfw-cs';
+const remoteurl = 'mongodb+srv://chester_the_tester:pfwcs537@pfw-cs.ctovaum.mongodb.net/?retryWrites=true&w=majority&appName=pfw-cs';
 // const localurl = 'mongodb://localhost:27017';
 
 // Use connect method to connect to the Server
-const client = new MongoClient(remoteurl, { useUnifiedTopology: true });
+const client = new mongodb.MongoClient(remoteurl, { useUnifiedTopology: true });
 await client.connect();
 
 async function run() {

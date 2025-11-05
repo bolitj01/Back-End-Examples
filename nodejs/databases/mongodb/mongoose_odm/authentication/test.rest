@@ -3,7 +3,7 @@ Content-Type: application/json
 
 {
     "username": "tommy",
-    "password": "CS590"
+    "password": "CS537"
 }
 
 ###
@@ -13,7 +13,7 @@ Content-Type: application/json
 
 {
     "username": "tommy",
-    "password": "CS590"
+    "password": "CS537"
 }
 
 ### Home page after login
