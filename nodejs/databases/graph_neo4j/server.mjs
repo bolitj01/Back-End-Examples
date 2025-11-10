@@ -25,7 +25,7 @@ let driver;
 })();
 
 const app = express();
-const port = 8082;
+const port = 8080;
 
 // Get __dirname in es6 modules
 const __filename = fileURLToPath(import.meta.url);
@@ -46,50 +46,53 @@ app.get("/", (req, res) => {
   res.sendFile(path.resolve(__dirname, buildFolder, "index.html"));
 });
 
-//Query all friends of a user by name
-app.get("/friends/:name", (req, res) => {
-  const session = driver.session();
-  const name = req.params.name;
-  const query = `MATCH (u1:User)-[:FRIEND_WITH]->(u2:User) 
-                    WHERE u1.name = $name 
-                    RETURN u2.name AS friend`;
-  const params = { name: name };
-  session
-    .run(query, params)
-    .then((result) => {
-      const friends = result.records.map((record) => record.get("friend"));
-      res.json(friends);
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(500).send(err);
-    })
-    .finally(() => session.close());
+// Query all friends of a user by name
+app.get("/friends/:name", async (req, res) => {
+  //Capitalize the first letter of the name parameter
+  const name = req.params.name.charAt(0).toUpperCase() + req.params.name.slice(1);
+
+  // return an aliased scalar so record.get('friend') works
+  const query = `
+    MATCH (u:User {Name: $name})-[:FRIEND_WITH]->(f)
+    RETURN f.Name AS friend
+  `;
+  const params = { name };
+
+  try {
+    let {records} = await driver.executeQuery(query, params);
+    console.log("records:", records.length);
+    // map the aliased scalar
+    const friends = records.map((r) => r.get("friend"));
+    res.json(friends);
+  } catch (err) {
+    console.error("friends query error:", err);
+    res.status(500).send(err.message || err);
+  }
 });
 
-//Suggest 20 random friends of friends
-app.get("/friend-suggestions/:name", (req, res) => {
-  const session = driver.session();
-  const name = req.params.name;
-  const query = `MATCH (u1:User)-[:FRIEND_WITH]->(f:User)-[:FRIEND_WITH]->(ff:User)
-                    WHERE u1.name = $name AND NOT (u1)-[:FRIEND_WITH]->(ff) AND ff <> u1
-                    ORDER BY rand()
-                    LIMIT 20
-                    RETURN ff.name AS suggestedFriend;`;
-  const params = { name: name };
-  session
-    .run(query, params)
-    .then((result) => {
-      const suggestions = result.records.map((record) =>
-        record.get("suggestedFriend")
-      );
-      res.json(suggestions);
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(500).send(err);
-    })
-    .finally(() => session.close());
+// Suggest 20 random friends of friends
+app.get("/friend-suggestions/:name", async (req, res) => {
+  //Capitalize the first letter of the name parameter
+  const name = req.params.name.charAt(0).toUpperCase() + req.params.name.slice(1);
+  
+  const query = `
+    MATCH (u:User {Name: $name})-[:FRIEND_WITH]->(:User)-[:FRIEND_WITH]->(suggestion:User)
+    WHERE NOT (u)-[:FRIEND_WITH]->(suggestion)
+    RETURN DISTINCT suggestion.Name AS suggestedFriend
+    ORDER BY rand()
+    LIMIT 20
+  `;
+  const params = { name };
+
+  try {
+    let {records} = await driver.executeQuery(query, params);
+    console.log("suggestions records:", records.length);
+    const suggestions = records.map((r) => r.get("suggestedFriend"));
+    res.json(suggestions);
+  } catch (err) {
+    console.error("suggestions query error:", err);
+    res.status(500).send(err.message || err);
+  }
 });
 
 // Start server
