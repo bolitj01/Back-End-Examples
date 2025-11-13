@@ -43,7 +43,7 @@ app.post("/register", async (req, res) => {
         // Create token
         const token = jwt.sign(
             { user_id: user._id, username },
-            process.env.TOKEN,
+            process.env.ACCESS_TOKEN_SECRET,
             {
                 expiresIn: "5h",
             }
@@ -77,7 +77,7 @@ app.post("/login", async (req, res) => {
             // Create token
             const token = jwt.sign(
                 { user_id: user._id, username },
-                process.env.TOKEN,
+                process.env.ACCESS_TOKEN_SECRET,
                 {
                     expiresIn: "5h",
                 }

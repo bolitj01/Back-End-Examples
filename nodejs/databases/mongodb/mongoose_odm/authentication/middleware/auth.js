@@ -2,8 +2,6 @@ import jwt from "jsonwebtoken";
 
 const { verify } = jwt;
 
-const config = process.env;
-
 //Custom middleware to verify the JSON web token
 const verifyToken = (req, res, next) => {
   const token =
@@ -15,8 +13,8 @@ const verifyToken = (req, res, next) => {
     return res.status(403).send("A token is required for authentication");
   }
   try {
-    console.log(`Server Token: ${process.env.TOKEN}`);
-    const decoded = verify(token, process.env.TOKEN);
+    console.log(`Server Token: ${process.env.ACCESS_TOKEN_SECRET}`);
+    const decoded = verify(token, process.env.ACCESS_TOKEN_SECRET);
     console.log(decoded);
     req.user = decoded;
   } catch (err) {

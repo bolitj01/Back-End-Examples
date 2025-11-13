@@ -42,6 +42,7 @@ app.post("/create-rooms", async (req, res) => {
 
 app.post("/create-participant", async (req, res) => {
   const { name } = req.body;
+  //Check if participant with same name already exists
   if (!(await Participant.findOne({ name }))) {
     const participant = new Participant({ name });
     await participant.save();

@@ -3,8 +3,7 @@ import {config} from "dotenv";
 
 config();
 
-const { PORT } = process.env;
-
+const port = "8080";
 // server listening 
-app.listen(PORT);
-console.log(`Server running on port ${PORT}`);
+app.listen(port);
+console.log(`Server running on port ${port}`);
