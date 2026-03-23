@@ -1,4 +1,4 @@
-GET http://localhost:8080/
+DELETE https://localhost:4430/login
 
 ###
 
